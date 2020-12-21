@@ -194,7 +194,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tab: 1
+    };
+  }
+});
 
 /***/ }),
 
@@ -837,7 +858,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("Login")])
+  return _c(
+    "div",
+    { staticClass: "container--small" },
+    [
+      _c("ul", { staticClass: "tab" }, [
+        _c(
+          "li",
+          {
+            staticClass: "tab__item",
+            class: { "tab__item--active": _vm.tab === 1 },
+            on: {
+              click: function($event) {
+                _vm.tab = 1
+              }
+            }
+          },
+          [_vm._v("login")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "tab__item",
+            class: { "tab__item--active": _vm.tab === 2 },
+            on: {
+              click: function($event) {
+                _vm.tab = 2
+              }
+            }
+          },
+          [_vm._v("Register")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "dir",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.tab === 1,
+              expression: "tab === 1"
+            }
+          ],
+          staticClass: "panel"
+        },
+        [_vm._v("Login Form")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.tab === 2,
+              expression: "tab === 2"
+            }
+          ],
+          staticClass: "panel"
+        },
+        [_vm._v("Register Form")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

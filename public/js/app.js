@@ -19610,10 +19610,9 @@ new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue/types/umd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./resources/js/util.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./resources/js/util.js");
 // window._ = require('lodash');
-
+// import { config } from 'vue/types/umd';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -19626,7 +19625,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.interceptors.request.use(function (config) {
   // クッキーからトークンを取り出してヘッダーに添付する
-  config.headers['X-XSRF-TOKEN'] = Object(_util__WEBPACK_IMPORTED_MODULE_1__["getCookieValue"])('XSRF-TOKEN');
+  config.headers['X-XSRF-TOKEN'] = Object(_util__WEBPACK_IMPORTED_MODULE_0__["getCookieValue"])('XSRF-TOKEN');
   return config;
 });
 /**

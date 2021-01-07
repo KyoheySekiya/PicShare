@@ -58,13 +58,21 @@ export default {
       }
     }
   },
+  computed: {
+    // auth モジュールの apiStatus ステートを参照
+    apiStatus () {
+      return this.$store.state.auth.apiStatus
+    }
+  },
   methods: {
     async login () {
       // dispatchメソッドを使ってauthストアのloginアクションを呼び出す
       await this.$store.dispatch('auth/login', this.loginForm)
 
-      // トップページに移動する
-      this.$router.push('/')
+      // apiStatus が成功（true）だった場合のみトップページに移動
+      if (this.apiStatus) {
+        this.$router.push('/')
+      }
     },
     async register () {
       // dispatchメソッドを使ってauthストアのregisterアクションを呼び出す

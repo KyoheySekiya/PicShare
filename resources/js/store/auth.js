@@ -3,7 +3,9 @@
 
 // ログイン済みユーザーを保持する user を追加
 const state = {
-  user: null
+  user: null,
+  // API 呼び出しが成功したか失敗したかを表す apiStatus ステートを追加
+  apiStatus: null
 }
 
 const getters = {
@@ -15,8 +17,13 @@ const getters = {
 const mutations = {
   setUser (state, user) {
     state.user = user
+  },
+  setApiStatus (state, status) {
+    state.apiStatus = status
   }
 }
+
+import { OK } from '../util'
 const actions = {
   // 会員登録APIを呼び出す registerアクションを追加
   async register (context, data) {
@@ -25,9 +32,21 @@ const actions = {
   },
   // ログインAPIを呼び出す loginアクションを追加
   async login (context, data) {
+    // 最初はnull
+    context.commit('setApiStatus', null)
     const response = await axios.post('/api/login', data)
-    context.commit('setUser', response.data)
+      .catch(err => err.response || err)
+    if (response.status === OK) {
+      // 成功したらtrue
+      context.commit('setApiStatus', true)
+      context.commit('setUser', response.data)
+      return false
+    }
+    // 失敗だったらfalse
+    context.commit('setApiStatus', false)
+    context.commit('error/setCode', response.status, { root: true})
   },
+
   // ログアウトAPIを呼び出す logoutアクションを追加
   async logout (context) {
     const response = await axios.post('/api/logout')

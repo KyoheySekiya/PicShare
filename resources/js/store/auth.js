@@ -6,7 +6,10 @@ const state = {
   user: null
 }
 
-const getters = {}
+const getters = {
+  check: state => !! state.user,
+  username: state => state.user ? state.user.name : ''
+}
 
 // user ステートの値を更新する setUser を追加
 const mutations = {

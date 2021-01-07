@@ -1973,7 +1973,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    isLogin: function isLogin() {
+      return this.$store.getters['auth/check'];
+    }
+  },
   methods: {
     logout: function logout() {
       var _this = this;
@@ -2035,7 +2042,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    isLogin: function isLogin() {
+      return this.$store.getters['auth/check'];
+    },
+    username: function username() {
+      return this.$store.getters['auth/username'];
+    }
+  }
+});
 
 /***/ }),
 
@@ -3466,17 +3482,17 @@ var render = function() {
     "footer",
     { staticClass: "footer" },
     [
-      _c(
-        "button",
-        { staticClass: "button button--link", on: { click: _vm.logout } },
-        [_vm._v("Logout")]
-      ),
-      _vm._v(" "),
-      _c(
-        "RouterLink",
-        { staticClass: "button button--link", attrs: { to: "/login" } },
-        [_vm._v("\n    Login / Register\n  ")]
-      )
+      _vm.isLogin
+        ? _c(
+            "button",
+            { staticClass: "button button--link", on: { click: _vm.logout } },
+            [_vm._v("\n    Logout\n  ")]
+          )
+        : _c(
+            "RouterLink",
+            { staticClass: "button button--link", attrs: { to: "/login" } },
+            [_vm._v("\n    Login / Register\n  ")]
+          )
     ],
     1
   )
@@ -3512,24 +3528,29 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "navbar__menu" }, [
-        _vm._m(0),
+        _vm.isLogin
+          ? _c("div", { staticClass: "navbar__item" }, [_vm._m(0)])
+          : _vm._e(),
         _vm._v(" "),
-        _c("span", { staticClass: "navbar__item" }, [
-          _vm._v("\n      username\n    ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "navbar__item" },
-          [
-            _c(
-              "RouterLink",
-              { staticClass: "button button--link", attrs: { to: "/login" } },
-              [_vm._v("\n        Login / Register\n      ")]
+        _vm.isLogin
+          ? _c("span", { staticClass: "navbar__item" }, [
+              _vm._v("\n      " + _vm._s(_vm.username) + "\n    ")
+            ])
+          : _c(
+              "div",
+              { staticClass: "navbar__item" },
+              [
+                _c(
+                  "RouterLink",
+                  {
+                    staticClass: "button button--link",
+                    attrs: { to: "/login" }
+                  },
+                  [_vm._v("\n        Login / Register\n      ")]
+                )
+              ],
+              1
             )
-          ],
-          1
-        )
       ])
     ],
     1
@@ -3540,11 +3561,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "navbar__item" }, [
-      _c("button", { staticClass: "button" }, [
-        _c("i", { staticClass: "icon ion-md-add" }),
-        _vm._v("\n        Submit a photo\n      ")
-      ])
+    return _c("button", { staticClass: "button" }, [
+      _c("i", { staticClass: "icon ion-md-add" }),
+      _vm._v("\n        Submit a photo\n      ")
     ])
   }
 ]
@@ -20840,7 +20859,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var state = {
   user: null
 };
-var getters = {}; // user ステートの値を更新する setUser を追加
+var getters = {
+  check: function check(state) {
+    return !!state.user;
+  },
+  username: function username(state) {
+    return state.user ? state.user.name : '';
+  }
+}; // user ステートの値を更新する setUser を追加
 
 var mutations = {
   setUser: function setUser(state, user) {

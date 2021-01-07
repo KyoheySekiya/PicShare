@@ -19,7 +19,9 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            // return redirect(RouteServiceProvider::HOME);
+            // SPA的にページへのリダイレクト（HTML）が帰るのは相応しくないためログインユーザーAPIにリダイレクトさせる
+            return redirect()->route('user');
         }
 
         return $next($request);

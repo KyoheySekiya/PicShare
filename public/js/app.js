@@ -20860,6 +20860,7 @@ var routes = [{
 }, {
   path: '/login',
   component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  // ログイン状態でログインページへアクセス時トップページに移動させる
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_4__["default"].getters['auth/check']) {
       next('/');

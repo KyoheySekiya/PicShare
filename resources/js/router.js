@@ -21,6 +21,7 @@ const routes = [
   {
     path: '/login',
     component: Login,
+    // ログイン状態でログインページへアクセス時トップページに移動させる
     beforeEnter (to, from, next) {
       if (store.getters['auth/check']) {
         next('/')

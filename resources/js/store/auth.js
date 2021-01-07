@@ -17,19 +17,27 @@ const mutations = {
     state.user = user
   }
 }
-// 会員登録 API を呼び出す register アクションを追加
 const actions = {
+  // 会員登録APIを呼び出す registerアクションを追加
   async register (context, data) {
     const response = await axios.post('/api/register', data)
     context.commit('setUser', response.data)
   },
+  // ログインAPIを呼び出す loginアクションを追加
   async login (context, data) {
     const response = await axios.post('/api/login', data)
     context.commit('setUser', response.data)
   },
+  // ログアウトAPIを呼び出す logoutアクションを追加
   async logout (context) {
     const response = await axios.post('/api/logout')
     context.commit('setUser', null)
+  },
+  // ログインユーザーAPIを呼び出す currentUserアクションを追加
+  async currentUser (context) {
+    const response = await axios.get('/api/user')
+    const user = response.data || null
+    context.commit('setUser', user)
   }
 }
 

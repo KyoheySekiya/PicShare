@@ -1,3 +1,5 @@
+import { OK } from '../util'
+
 // ステート・ゲッター・ミューテーション・アクションを定義してストアオブジェクトとしてエクスポート
 // これが認証したユーザのデータが入るストアになる
 
@@ -23,7 +25,6 @@ const mutations = {
   }
 }
 
-import { OK } from '../util'
 const actions = {
   // 会員登録APIを呼び出す registerアクションを追加
   async register (context, data) {
@@ -36,6 +37,7 @@ const actions = {
     context.commit('setApiStatus', null)
     const response = await axios.post('/api/login', data)
       .catch(err => err.response || err)
+
     if (response.status === OK) {
       // 成功したらtrue
       context.commit('setApiStatus', true)
@@ -44,7 +46,7 @@ const actions = {
     }
     // 失敗だったらfalse
     context.commit('setApiStatus', false)
-    context.commit('error/setCode', response.status, { root: true})
+    context.commit('error/setCode', response.status, { root: true })
   },
 
   // ログアウトAPIを呼び出す logoutアクションを追加

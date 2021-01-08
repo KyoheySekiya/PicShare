@@ -32,13 +32,13 @@ export default {
     errorCode: {
       handler (val) {
         if (val === INTERNAL_SERVER_ERROR) {
-          this.$router.pusf('/500')
+          this.$router.push('/500')
         }
       },
       immediate: true
     },
     $route () {
-      this.$store.commit('error/serCode', null)
+      this.$store.commit('error/setCode', null)
     }
   }
 }

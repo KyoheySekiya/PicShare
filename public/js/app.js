@@ -1955,13 +1955,13 @@ __webpack_require__.r(__webpack_exports__);
     errorCode: {
       handler: function handler(val) {
         if (val === _util__WEBPACK_IMPORTED_MODULE_2__["INTERNAL_SERVER_ERROR"]) {
-          this.$router.pusf('/500');
+          this.$router.push('/500');
         }
       },
       immediate: true
     },
     $route: function $route() {
-      this.$store.commit('error/serCode', null);
+      this.$store.commit('error/setCode', null);
     }
   }
 });
@@ -21044,9 +21044,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-// ステート・ゲッター・ミューテーション・アクションを定義してストアオブジェクトとしてエクスポート
+ // ステート・ゲッター・ミューテーション・アクションを定義してストアオブジェクトとしてエクスポート
 // これが認証したユーザのデータが入るストアになる
 // ログイン済みユーザーを保持する user を追加
+
 var state = {
   user: null,
   // API 呼び出しが成功したか失敗したかを表す apiStatus ステートを追加
@@ -21069,7 +21070,6 @@ var mutations = {
     state.apiStatus = status;
   }
 };
-
 var actions = {
   // 会員登録APIを呼び出す registerアクションを追加
   register: function register(context, data) {

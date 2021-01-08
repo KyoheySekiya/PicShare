@@ -34,3 +34,9 @@ window.axios.interceptors.request.use(config => {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+// axios の response インターセプターはレスポンスを受けた後の処理を上書きする
+window.axios.interceptors.response.use(
+  response => response,
+  error => error.response || error
+)

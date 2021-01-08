@@ -33,6 +33,17 @@
     </dir>
     <div class="panel" v-show="tab === 2">
       <form class="form" @submit.prevent="register">
+        <div v-if="registerErrors" class="errors">
+          <ul v-if="registerErrors.name">
+            <li v-for="msg in registerErrors.name" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrors.email">
+            <li v-for="msg in registerErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrors.password">
+            <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <label for="username">Name</label>
         <input type="text" class="form__item" id="username" v-model="registerForm.name">
         <label for="email">Email</label>
@@ -74,6 +85,9 @@ export default {
     // auth モジュールの loginErrorMessages ステートを参照
     loginErrors () {
       return this.$store.state.auth.loginErrorMessages
+    },
+    registerErrors () {
+      return this.$store.state.auth.registerErrorMessages
     }
   },
   methods: {
@@ -90,12 +104,15 @@ export default {
       // dispatchメソッドを使ってauthストアのregisterアクションを呼び出す
       await this.$store.dispatch('auth/register', this.registerForm)
 
-      // トップページに移動する
-      this.$router.push('/')
+      // apiStatus が成功（true）だった場合のみトップページに移動
+      if (this.apiStatus) {
+        this.$router.push('/')
+      }
     },
     // 表示されたバリデーションエラーをクリアする
     clearError () {
       this.$store.commit('auth/setLoginErrorMessages', null)
+      this.$store.commit('auth/setRegisterErrorMessages', null)
     }
   },
   // ログインページを表示するタイミングで表示されたバリデーションエラーをクリア

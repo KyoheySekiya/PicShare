@@ -2218,7 +2218,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    // 表示されたバリデーションエラーをクリアする
+    clearError: function clearError() {
+      this.$store.commit('auth/setLoginErrorMessages', null);
     }
+  },
+  // ログインページを表示するタイミングで表示されたバリデーションエラーをクリア
+  created: function created() {
+    this.clearError();
   }
 });
 

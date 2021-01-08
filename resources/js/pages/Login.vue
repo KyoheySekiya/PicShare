@@ -92,7 +92,15 @@ export default {
 
       // トップページに移動する
       this.$router.push('/')
+    },
+    // 表示されたバリデーションエラーをクリアする
+    clearError () {
+      this.$store.commit('auth/setLoginErrorMessages', null)
     }
+  },
+  // ログインページを表示するタイミングで表示されたバリデーションエラーをクリア
+  created () {
+    this.clearError()
   }
 }
 </script>

@@ -1,13 +1,15 @@
-import { OK } from '../util'
+import { OK, UNPROCESSABLE_ENTITY } from '../util'
 
 // ステート・ゲッター・ミューテーション・アクションを定義してストアオブジェクトとしてエクスポート
 // これが認証したユーザのデータが入るストアになる
 
-// ログイン済みユーザーを保持する user を追加
 const state = {
+  // ログイン済みユーザーを保持する user ステート
   user: null,
-  // API 呼び出しが成功したか失敗したかを表す apiStatus ステートを追加
-  apiStatus: null
+  // API 呼び出しが成功したか失敗したかを表す apiStatus ステート
+  apiStatus: null,
+  // エラーメッセージを入れる loginErrorMessages ステート
+  loginErrorMessages: null
 }
 
 const getters = {
@@ -15,23 +17,26 @@ const getters = {
   username: state => state.user ? state.user.name : ''
 }
 
-// user ステートの値を更新する setUser を追加
+  // 各ステートの値を更新するミューテーションをセット
 const mutations = {
   setUser (state, user) {
     state.user = user
   },
   setApiStatus (state, status) {
     state.apiStatus = status
+  },
+  setLoginErrorMessages (state, messages) {
+    state.loginErrorMessages = messages
   }
 }
 
 const actions = {
-  // 会員登録APIを呼び出す registerアクションを追加
+  // 会員登録APIを呼び出す registerアクション
   async register (context, data) {
     const response = await axios.post('/api/register', data)
     context.commit('setUser', response.data)
   },
-  // ログインAPIを呼び出す loginアクションを追加
+  // ログインAPIを呼び出す loginアクション
   async login (context, data) {
     // 最初はnull
     context.commit('setApiStatus', null)
@@ -46,15 +51,20 @@ const actions = {
     }
     // 失敗だったらfalse
     context.commit('setApiStatus', false)
-    context.commit('error/setCode', response.status, { root: true })
+    // ステータスコードが UNPROCESSABLE_ENTITY の場合の分岐
+    if (response.status === UNPROCESSABLE_ENTITY) {
+      context.commit('setLoginErrorMessages', response.data.errors)
+    } else {
+      context.commit('error/setCode', response.status, { root: true })
+    }
   },
 
-  // ログアウトAPIを呼び出す logoutアクションを追加
+  // ログアウトAPIを呼び出す logoutアクション
   async logout (context) {
     const response = await axios.post('/api/logout')
     context.commit('setUser', null)
   },
-  // ログインユーザーAPIを呼び出す currentUserアクションを追加
+  // ログインユーザーAPIを呼び出す currentUserアクション
   async currentUser (context) {
     const response = await axios.get('/api/user')
     const user = response.data || null
